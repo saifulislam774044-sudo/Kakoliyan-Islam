@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TaliKhata</string>
+    <string name="shop_ledger_name">JEOBAYER</string>
+    <string name="shop_bangla_name">জুবায়ের</string>
+    <string name="app_tagline">আপনার ব্যবসার সকল হিসাব, এক জায়গায়।</string>
+    <string name="support_button_text">সরাসরি মালিকের সাথে কথা বলুন</string>
+    <string name="sign_in_google">Google দিয়ে সাইন-ইন করুন</string>
+    <string name="error_network_unavailable">ইন্টারনেট সংযোগ নেই। অফলাইন মোডে ডেটা সংরক্ষিত আছে।</string>
+</resources>

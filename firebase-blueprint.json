@@ -1,0 +1,284 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated merchant or admin user account metadata.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "role": { "type": "string", "enum": ["merchant", "admin"] },
+        "active": { "type": "boolean" },
+        "businessCount": { "type": "integer" },
+        "lastLoginAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "role", "active", "businessCount", "createdAt", "updatedAt"]
+    },
+    "Business": {
+      "title": "Business",
+      "description": "Isolated business/shop ledger entity (default JEOBAYER).",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "shopName": { "type": "string" },
+        "ledgerCode": { "type": "string" },
+        "ownerName": { "type": "string" },
+        "mobileNumber": { "type": "string" },
+        "businessCategory": { "type": "string" },
+        "shopAddress": { "type": "string" },
+        "startingDateEpoch": { "type": "integer" },
+        "paymentQrInfo": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "shopName", "ledgerCode", "ownerName", "mobileNumber", "businessCategory", "startingDateEpoch", "createdAt", "updatedAt"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer profile and ledger balance summary.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "name": { "type": "string" },
+        "mobileNumber": { "type": "string" },
+        "address": { "type": "string" },
+        "notes": { "type": "string" },
+        "openingBalance": { "type": "number" },
+        "creditLimit": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "lastPaymentEpoch": { "type": "integer" },
+        "lastReminderEpoch": { "type": "integer" },
+        "archived": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "name", "mobileNumber", "openingBalance", "creditLimit", "currentBalance", "archived", "createdAt", "updatedAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Inventory product with purchase/selling price and stock level.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "sku": { "type": "string" },
+        "barcode": { "type": "string" },
+        "purchasePrice": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "availableQuantity": { "type": "number" },
+        "minStockLevel": { "type": "number" },
+        "unit": { "type": "string" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "name", "category", "purchasePrice", "sellingPrice", "availableQuantity", "minStockLevel", "unit", "active", "createdAt", "updatedAt"]
+    },
+    "LedgerTransaction": {
+      "title": "LedgerTransaction",
+      "description": "Immutable financial transaction record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "invoiceId": { "type": "string" },
+        "referenceTxId": { "type": "string" },
+        "transactionType": { "type": "string", "enum": ["CREDIT_SALE", "PAYMENT_RECEIVED", "CASH_SALE", "PURCHASE", "EXPENSE", "OPENING_BALANCE", "OTHER_INCOME", "REVERSAL"] },
+        "amount": { "type": "number" },
+        "description": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "status": { "type": "string", "enum": ["POSTED", "REVERSED"] },
+        "transactionEpoch": { "type": "integer" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "transactionType", "amount", "paymentMethod", "status", "transactionEpoch", "createdBy", "createdAt"]
+    },
+    "Invoice": {
+      "title": "Invoice",
+      "description": "Sales invoice with line summary and payment tracking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "subtotal": { "type": "number" },
+        "discountAmount": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "dueAmount": { "type": "number" },
+        "totalCogs": { "type": "number" },
+        "status": { "type": "string", "enum": ["COMPLETED", "CANCELLED"] },
+        "notes": { "type": "string" },
+        "itemsSummary": { "type": "string" },
+        "invoiceEpoch": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "invoiceNumber", "subtotal", "discountAmount", "totalAmount", "paidAmount", "dueAmount", "totalCogs", "status", "invoiceEpoch", "createdAt", "updatedAt"]
+    },
+    "Receipt": {
+      "title": "Receipt",
+      "description": "Immutable digital payment receipt.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "paymentTxId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "receiptNumber": { "type": "string" },
+        "previousBalance": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "referenceNote": { "type": "string" },
+        "receiptEpoch": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "paymentTxId", "customerId", "customerName", "receiptNumber", "previousBalance", "paidAmount", "currentBalance", "paymentMethod", "receiptEpoch", "createdAt"]
+    },
+    "ExpenseIncome": {
+      "title": "ExpenseIncome",
+      "description": "Income and expense record with audit timestamp.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "transactionId": { "type": "string" },
+        "entryType": { "type": "string", "enum": ["EXPENSE", "INCOME"] },
+        "category": { "type": "string" },
+        "amount": { "type": "number" },
+        "description": { "type": "string" },
+        "entryEpoch": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "entryType", "category", "amount", "entryEpoch", "createdAt", "updatedAt"]
+    },
+    "StockMovement": {
+      "title": "StockMovement",
+      "description": "Idempotent stock movement audit entry.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "invoiceId": { "type": "string" },
+        "movementType": { "type": "string", "enum": ["STOCK_IN", "STOCK_OUT", "ADJUSTMENT", "INVOICE_CANCEL_REVERSAL"] },
+        "quantityChange": { "type": "number" },
+        "unitCost": { "type": "number" },
+        "note": { "type": "string" },
+        "idempotencyKey": { "type": "string" },
+        "movementEpoch": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "productId", "productName", "movementType", "quantityChange", "unitCost", "idempotencyKey", "movementEpoch", "createdAt"]
+    },
+    "BackupLog": {
+      "title": "BackupLog",
+      "description": "Cloud backup and restore history record.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "businessId": { "type": "string" },
+        "backupType": { "type": "string", "enum": ["AUTO", "MANUAL", "RESTORE"] },
+        "status": { "type": "string", "enum": ["SUCCESS", "FAILED"] },
+        "recordsSynced": { "type": "integer" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "businessId", "backupType", "status", "recordsSynced", "createdAt"]
+    },
+    "SupportRequest": {
+      "title": "SupportRequest",
+      "description": "User support ticket visible to owner and admin.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "businessName": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPEN", "IN_PROGRESS", "RESOLVED"] },
+        "adminReply": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "subject", "message", "status", "createdAt", "updatedAt"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "System-wide admin announcement.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "body", "createdBy", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Merchant profile metadata (never holds private customer ledgers)."
+    },
+    "/users/{userId}/businesses/{businessId}": {
+      "schema": { "$ref": "#/entities/Business" },
+      "description": "Businesses owned by the user."
+    },
+    "/users/{userId}/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Private customer records and balances."
+    },
+    "/users/{userId}/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Private product inventory."
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/LedgerTransaction" },
+      "description": "Private immutable financial transactions."
+    },
+    "/users/{userId}/invoices/{invoiceId}": {
+      "schema": { "$ref": "#/entities/Invoice" },
+      "description": "Private invoices."
+    },
+    "/users/{userId}/receipts/{receiptId}": {
+      "schema": { "$ref": "#/entities/Receipt" },
+      "description": "Private payment receipts."
+    },
+    "/users/{userId}/expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/ExpenseIncome" },
+      "description": "Private income and expense entries."
+    },
+    "/users/{userId}/stock_movements/{movementId}": {
+      "schema": { "$ref": "#/entities/StockMovement" },
+      "description": "Private stock movement audit trail."
+    },
+    "/users/{userId}/backup_logs/{logId}": {
+      "schema": { "$ref": "#/entities/BackupLog" },
+      "description": "Cloud backup sync history logs."
+    },
+    "/support_requests/{requestId}": {
+      "schema": { "$ref": "#/entities/SupportRequest" },
+      "description": "Support requests managed by the app owner admin panel."
+    },
+    "/app_announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Announcements published by admin."
+    }
+  }
+}

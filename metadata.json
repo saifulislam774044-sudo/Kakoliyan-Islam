@@ -1,0 +1,6 @@
+{
+  "name": "TaliKhata",
+  "description": "TaliKhata (JEOBAYER) — আপনার ব্যবসার সকল হিসাব, এক জায়গায়। Offline-first Business Ledger, Inventory, Invoicing, Reports & Cloud Sync.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
